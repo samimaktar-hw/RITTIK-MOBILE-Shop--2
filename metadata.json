@@ -1,0 +1,7 @@
+{
+  "name": "Rittik Mobile Shop",
+  "description": "Buy and sell premium certified smartphones, customer reviews and star ratings, track orders, and manage cart & wishlist.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
+

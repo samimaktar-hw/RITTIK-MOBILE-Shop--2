@@ -1,0 +1,122 @@
+{
+  "entities": {
+    "users": {
+      "title": "Customer Profile",
+      "description": "Customer account profile and contact information",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "name": { "type": "string" },
+        "mobile": { "type": "string" },
+        "email": { "type": "string" },
+        "createdDate": { "type": "string" },
+        "accountStatus": { "type": "string" }
+      },
+      "required": ["uid", "email"]
+    },
+    "orders": {
+      "title": "Customer Orders",
+      "description": "Orders placed by verified customers",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "customerName": { "type": "string" },
+        "customerMobile": { "type": "string" },
+        "mobile": { "type": "string" },
+        "customerEmail": { "type": "string" },
+        "items": { "type": "array" },
+        "total": { "type": "number" },
+        "address": { "type": "string" },
+        "deliveryAddress": { "type": "string" },
+        "latitude": { "type": "number" },
+        "longitude": { "type": "number" },
+        "paymentMethod": { "type": "string" },
+        "status": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["userId", "items", "total"]
+    },
+    "sellRequests": {
+      "title": "Sell Requests",
+      "description": "Sell phone evaluation and trade-in requests with device photos",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "sellerName": { "type": "string" },
+        "sellerMobile": { "type": "string" },
+        "sellerEmail": { "type": "string" },
+        "deviceName": { "type": "string" },
+        "brand": { "type": "string" },
+        "model": { "type": "string" },
+        "condition": { "type": "string" },
+        "expectedPrice": { "type": "number" },
+        "images": { "type": "array" },
+        "status": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["deviceName", "sellerMobile"]
+    },
+    "products": {
+      "title": "Store Products",
+      "description": "Products catalog including customer-sold launched devices",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "price": { "type": "number" },
+        "images": { "type": "array" },
+        "createdAt": { "type": "number" }
+      },
+      "required": ["id", "name", "price"]
+    },
+    "settings": {
+      "title": "System Settings",
+      "description": "System settings including website logo and authorized admin UID",
+      "type": "object",
+      "properties": {
+        "logoUrl": { "type": "string" },
+        "adminUid": { "type": "string" },
+        "adminEmail": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      }
+    },
+    "shopSettings": {
+      "title": "Shop Settings & GPS Location",
+      "description": "Store GPS location latitude, longitude, and store details",
+      "type": "object",
+      "properties": {
+        "latitude": { "type": "number" },
+        "longitude": { "type": "number" },
+        "updatedAt": { "type": "string" }
+      }
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "users",
+      "description": "Customer profiles"
+    },
+    "/orders/{orderId}": {
+      "schema": "orders",
+      "description": "Customer store orders"
+    },
+    "/sellRequests/{requestId}": {
+      "schema": "sellRequests",
+      "description": "Sell phone trade-in requests"
+    },
+    "/products/{productId}": {
+      "schema": "products",
+      "description": "Store products catalog"
+    },
+    "/settings/{settingId}": {
+      "schema": "settings",
+      "description": "Global settings for website logo and admin authorization"
+    },
+    "/shopSettings/{docId}": {
+      "schema": "shopSettings",
+      "description": "Shop location GPS coordinates"
+    }
+  }
+}

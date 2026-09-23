@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="50%" stop-color="#0b1121" />
+      <stop offset="100%" stop-color="#0284c7" />
+    </linearGradient>
+    <linearGradient id="cyanGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8" />
+      <stop offset="50%" stop-color="#00e5ff" />
+      <stop offset="100%" stop-color="#0284c7" />
+    </linearGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="6" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+  <!-- Rounded Base Badge -->
+  <rect x="8" y="8" width="184" height="184" rx="42" fill="url(#bgGrad)" stroke="#00e5ff" stroke-width="4" stroke-opacity="0.6" />
+  
+  <!-- Outer Glow Ring -->
+  <circle cx="100" cy="100" r="76" fill="none" stroke="#00e5ff" stroke-width="2" stroke-dasharray="8 6" opacity="0.4" />
+  
+  <!-- Stylized Phone Outline -->
+  <rect x="58" y="38" width="84" height="124" rx="16" fill="#0b1121" stroke="url(#cyanGrad)" stroke-width="4.5" filter="url(#glow)" />
+  <rect x="58" y="38" width="84" height="124" rx="16" fill="none" stroke="url(#cyanGrad)" stroke-width="4" />
+  
+  <!-- Top Speaker / Notch -->
+  <rect x="86" y="47" width="28" height="4" rx="2" fill="#38bdf8" opacity="0.8" />
+  
+  <!-- Screen Area with Monogram 'R' -->
+  <rect x="66" y="58" width="68" height="84" rx="8" fill="#0f172a" fill-opacity="0.8" />
+  
+  <!-- Letter 'R' in glowing cyan typography -->
+  <path d="M84 72 H102 C112 72 118 77 118 84 C118 90 113 94 105 95 L119 114 H107 L95 97 H94 V114 H84 Z M94 80 V90 H101 C106 90 109 88 109 85 C109 82 106 80 101 80 Z" fill="url(#cyanGrad)" />
+  
+  <!-- Camera dot -->
+  <circle cx="100" cy="151" r="5" fill="#00e5ff" opacity="0.9" />
+  
+  <!-- Sparkle accents -->
+  <circle cx="148" cy="46" r="3" fill="#00e5ff" />
+  <circle cx="48" cy="144" r="2.5" fill="#38bdf8" />
+</svg>
