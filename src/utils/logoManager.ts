@@ -3,13 +3,18 @@ import { doc, onSnapshot, setDoc } from 'firebase/firestore';
 import { db } from '../firebase';
 import { handleFirestoreError, OperationType } from './firestoreError';
 
-export const DEFAULT_STORE_LOGO = '/assets/logo.svg';
+const base = import.meta.env.BASE_URL || '/';
+const normalizedBase = base.endsWith('/') ? base : `${base}/`;
+export const DEFAULT_STORE_LOGO = `${normalizedBase}assets/logo.svg`;
 const STORAGE_KEY = 'rittik_store_logo';
 
 export function getStoreLogo(): string {
   try {
     const custom = localStorage.getItem(STORAGE_KEY);
     if (custom && custom.trim().length > 0) {
+      if (custom.trim() === '/assets/logo.svg') {
+        return DEFAULT_STORE_LOGO;
+      }
       return custom.trim();
     }
   } catch {}

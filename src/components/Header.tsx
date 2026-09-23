@@ -12,7 +12,7 @@ import {
   ShieldCheck
 } from 'lucide-react';
 import { User as FirebaseUser } from 'firebase/auth';
-import { useStoreLogo } from '../utils/logoManager';
+import { useStoreLogo, DEFAULT_STORE_LOGO } from '../utils/logoManager';
 
 interface HeaderProps {
   currentView?: AppView;
@@ -157,7 +157,7 @@ export const Header: React.FC<HeaderProps> = ({
             alt="Rittik Mobile Shop Logo"
             draggable={false}
             onError={(e) => {
-              (e.currentTarget as HTMLImageElement).src = '/assets/logo.svg';
+              (e.currentTarget as HTMLImageElement).src = DEFAULT_STORE_LOGO;
             }}
             className="w-9 h-9 sm:w-10 sm:h-10 object-contain rounded-xl bg-slate-950/80 border border-cyan-500/40 p-1 shadow-md shadow-cyan-500/20 group-hover:scale-105 transition-transform pointer-events-none"
           />
