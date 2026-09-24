@@ -21,16 +21,30 @@ export async function getAdminConfig(): Promise<AdminConfig | null> {
     if (snap.exists()) {
       const data = snap.data();
       if (data?.adminUid && typeof data.adminUid === 'string') {
-        return {
+        const config: AdminConfig = {
           adminUid: data.adminUid,
           adminEmail: data.adminEmail || '',
           initializedAt: data.initializedAt || ''
         };
+        try {
+          localStorage.setItem('rittik_admin_config', JSON.stringify(config));
+        } catch {}
+        return config;
       }
     }
     return null;
-  } catch (err) {
-    console.error('Error fetching admin config:', err);
+  } catch (err: any) {
+    try {
+      const cached = localStorage.getItem('rittik_admin_config');
+      if (cached) {
+        return JSON.parse(cached);
+      }
+    } catch {}
+    if (err?.code === 'unavailable' || (typeof err?.message === 'string' && err.message.includes('offline'))) {
+      console.warn('Firestore is currently operating in offline mode.');
+    } else {
+      console.warn('Error fetching admin config:', err?.message || err);
+    }
     return null;
   }
 }

@@ -28,6 +28,7 @@ import { AdminPanel } from './components/AdminPanel';
 import { AdminLoginModal } from './components/AdminLoginModal';
 import { verifyUserIsAdmin } from './utils/adminAuth';
 import { useStoreSettings } from './utils/storeSettingsManager';
+import { getRealDeviceGpsPosition } from './utils/gpsLocationHelper';
 import { 
   Home, 
   MapPin, 
@@ -143,6 +144,41 @@ export default function App() {
   const [selectedProductId, setSelectedProductId] = useState<string>(initialProducts[0]?.id || 'apple-iphone-13');
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [storeSettings] = useStoreSettings();
+  const [isGettingDirections, setIsGettingDirections] = useState(false);
+
+  const handleViewStoreDirections = async () => {
+    setIsGettingDirections(true);
+    try {
+      const coords = await getRealDeviceGpsPosition();
+      if (storeSettings.latitude && storeSettings.longitude) {
+        window.open(
+          `https://www.google.com/maps/dir/?api=1&origin=${coords.latitude},${coords.longitude}&destination=${storeSettings.latitude},${storeSettings.longitude}`,
+          '_blank',
+          'noopener,noreferrer'
+        );
+      } else if (storeSettings.address) {
+        window.open(
+          `https://www.google.com/maps/dir/?api=1&origin=${coords.latitude},${coords.longitude}&destination=${encodeURIComponent(storeSettings.address)}`,
+          '_blank',
+          'noopener,noreferrer'
+        );
+      } else {
+        window.open(
+          `https://www.google.com/maps?q=${coords.latitude},${coords.longitude}`,
+          '_blank',
+          'noopener,noreferrer'
+        );
+      }
+      setToastMessage('📍 Location detected! Opening Google Maps directions...');
+      setTimeout(() => setToastMessage(null), 3500);
+    } catch (err: any) {
+      const errMsg = err?.message || 'Unable to retrieve your current location. Please try again.';
+      setToastMessage(errMsg);
+      setTimeout(() => setToastMessage(null), 5000);
+    } finally {
+      setIsGettingDirections(false);
+    }
+  };
 
   // Sync launched products to localStorage
   useEffect(() => {
@@ -867,31 +903,23 @@ export default function App() {
                 <span>{storeSettings.address || 'Main Market Road, West Bengal, India'}</span>
               </div>
 
-              {(storeSettings.latitude && storeSettings.longitude) ? (
-                <div className="pl-5">
-                  <a
-                    href={`https://www.google.com/maps?q=${storeSettings.latitude},${storeSettings.longitude}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-cyan-400 hover:underline flex items-center gap-1 font-bold text-[10px]"
-                  >
-                    <span>View Store Directions on Google Maps</span>
-                    <ExternalLink className="w-3 h-3" />
-                  </a>
-                </div>
-              ) : storeSettings.googleMapsUrl ? (
-                <div className="pl-5">
-                  <a
-                    href={storeSettings.googleMapsUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-cyan-400 hover:underline flex items-center gap-1 font-bold text-[10px]"
-                  >
-                    <span>View Store Directions on Google Maps</span>
-                    <ExternalLink className="w-3 h-3" />
-                  </a>
-                </div>
-              ) : null}
+              <div className="pl-5">
+                <button
+                  type="button"
+                  onClick={handleViewStoreDirections}
+                  disabled={isGettingDirections}
+                  title="View Store Directions on Google Maps"
+                  aria-label="View Store Directions on Google Maps"
+                  className="text-cyan-400 hover:underline flex items-center gap-1 font-bold text-[10px] bg-transparent border-0 p-0 cursor-pointer text-left transition-colors hover:text-cyan-300 disabled:opacity-50"
+                >
+                  <span>
+                    {isGettingDirections
+                      ? '📍 Detecting current location...'
+                      : 'View Store Directions on Google Maps'}
+                  </span>
+                  <ExternalLink className="w-3 h-3 flex-shrink-0" />
+                </button>
+              </div>
 
               <div className="flex items-center gap-1.5">
                 <Clock className="w-3.5 h-3.5 text-cyan-400 flex-shrink-0" />
