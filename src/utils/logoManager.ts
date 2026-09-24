@@ -8,14 +8,22 @@ const normalizedBase = base.endsWith('/') ? base : `${base}/`;
 export const DEFAULT_STORE_LOGO = `${normalizedBase}assets/logo.svg`;
 const STORAGE_KEY = 'rittik_store_logo';
 
+export function normalizeLogoUrl(url: string | null | undefined): string {
+  if (!url || typeof url !== 'string' || !url.trim()) {
+    return DEFAULT_STORE_LOGO;
+  }
+  const clean = url.trim();
+  if (clean === '/assets/logo.svg' || clean === '/assets/logo.png' || clean === 'assets/logo.svg' || clean === 'assets/logo.png') {
+    return DEFAULT_STORE_LOGO;
+  }
+  return clean;
+}
+
 export function getStoreLogo(): string {
   try {
     const custom = localStorage.getItem(STORAGE_KEY);
     if (custom && custom.trim().length > 0) {
-      if (custom.trim() === '/assets/logo.svg') {
-        return DEFAULT_STORE_LOGO;
-      }
-      return custom.trim();
+      return normalizeLogoUrl(custom);
     }
   } catch {}
   return DEFAULT_STORE_LOGO;
@@ -65,7 +73,7 @@ function initLogoSyncOnce() {
       if (snap.exists()) {
         const data = snap.data();
         if (data?.logoUrl && typeof data.logoUrl === 'string' && data.logoUrl.trim().length > 0) {
-          const remoteUrl = data.logoUrl.trim();
+          const remoteUrl = normalizeLogoUrl(data.logoUrl);
           if (currentLogo !== remoteUrl) {
             currentLogo = remoteUrl;
             try {

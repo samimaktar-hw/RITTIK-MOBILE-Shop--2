@@ -93,7 +93,7 @@ export const OrderDetailsModal: React.FC<OrderDetailsModalProps> = ({
       'Order Items:',
       itemsList,
       `Total Amount: ₹${(order.productPrice || 0).toLocaleString('en-IN')}`,
-      `Payment Method: ${order.paymentMethod === 'cod' ? 'Cash on Delivery' : order.paymentMethod.toUpperCase()}`,
+      `Payment Method: ${order.paymentMethod === 'cod' ? 'Cash on Delivery' : (order.paymentMethod ? order.paymentMethod.toUpperCase() : 'Online / UPI')}`,
       `Current Status: ${order.status}`,
       '----------------------------------------',
       'Rittik Mobile Shop | Certified Pre-Owned'
@@ -411,7 +411,7 @@ export const OrderDetailsModal: React.FC<OrderDetailsModalProps> = ({
               <div>
                 <span className="text-slate-400">Payment Mode: </span>
                 <span className="font-bold text-amber-400 uppercase">
-                  {order.paymentMethod === 'cod' ? 'Cash on Delivery (COD)' : order.paymentMethod.toUpperCase()}
+                  {order.paymentMethod === 'cod' ? 'Cash on Delivery (COD)' : (order.paymentMethod ? order.paymentMethod.toUpperCase() : 'Online / UPI')}
                 </span>
               </div>
               <div className="text-right">

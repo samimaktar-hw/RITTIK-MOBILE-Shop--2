@@ -22,7 +22,7 @@ export interface RealGpsResult {
 export function getRealDeviceGpsPosition(): Promise<RealGpsResult> {
   return new Promise((resolve, reject) => {
     if (typeof window === 'undefined' || !navigator.geolocation) {
-      reject(new Error('Geolocation is not supported by your browser.'));
+      reject(new Error('Geolocation is not supported by this browser.'));
       return;
     }
 
@@ -36,15 +36,15 @@ export function getRealDeviceGpsPosition(): Promise<RealGpsResult> {
       (error) => {
         if (error.code === 1) {
           // PERMISSION_DENIED
-          reject(new Error('Location permission was denied.\nPlease allow location access and try again.'));
+          reject(new Error('Location permission was denied. Please allow location access from your browser settings and try again.'));
         } else if (error.code === 2) {
           // POSITION_UNAVAILABLE
-          reject(new Error('Please turn on device location/GPS and try again.'));
+          reject(new Error('GPS / location services are turned off or unavailable. Please enable location services on your device and try again.'));
         } else if (error.code === 3) {
           // TIMEOUT
-          reject(new Error('Unable to detect your current location.\nPlease try again.'));
+          reject(new Error('Location request timed out. Please check your connection or GPS and try again.'));
         } else {
-          reject(new Error('Unable to detect your current location.\nPlease try again.'));
+          reject(new Error('Unable to detect your current location. Please try again.'));
         }
       },
       {

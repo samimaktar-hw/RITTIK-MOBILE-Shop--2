@@ -620,7 +620,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                         ₹{(o.productPrice || 0).toLocaleString('en-IN')}
                       </div>
                       <div className="text-[10px] text-amber-400 font-bold uppercase">
-                        {o.paymentMethod === 'cod' ? 'Cash on Delivery' : o.paymentMethod.toUpperCase()}
+                        {o.paymentMethod === 'cod' ? 'Cash on Delivery' : (o.paymentMethod ? o.paymentMethod.toUpperCase() : 'Online / UPI')}
                       </div>
                     </div>
 
