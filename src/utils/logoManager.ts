@@ -13,7 +13,14 @@ export function normalizeLogoUrl(url: string | null | undefined): string {
     return DEFAULT_STORE_LOGO;
   }
   const clean = url.trim();
-  if (clean === '/assets/logo.svg' || clean === '/assets/logo.png' || clean === 'assets/logo.svg' || clean === 'assets/logo.png') {
+  if (
+    clean === '/assets/logo.svg' || 
+    clean === '/assets/logo.png' || 
+    clean === 'assets/logo.svg' || 
+    clean === 'assets/logo.png' ||
+    clean === './assets/logo.svg' ||
+    clean === './assets/logo.png'
+  ) {
     return DEFAULT_STORE_LOGO;
   }
   return clean;
